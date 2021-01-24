@@ -2,9 +2,17 @@ package com.vbt.spring.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id // Especificando para o JPA que o id é a Primary Key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Especifica ao banco de dados que este campo é auto increment
 	private Long id;
 	private String name;
 	private String email;
