@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.vbt.spring.entities.Category;
 import com.vbt.spring.entities.Order;
+import com.vbt.spring.entities.OrderItem;
 import com.vbt.spring.entities.Product;
 import com.vbt.spring.entities.User;
 import com.vbt.spring.entities.enums.OrderStatus;
 import com.vbt.spring.repositories.CategoryRepository;
+import com.vbt.spring.repositories.OrderItemRepository;
 import com.vbt.spring.repositories.OrderRepository;
 import com.vbt.spring.repositories.ProductRepository;
 import com.vbt.spring.repositories.UserRepository;
@@ -33,6 +35,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	// Será executado tudo o que estiver neste método, assim que a aplicação for iniciada
 	@Override
@@ -73,5 +78,13 @@ public class TestConfig implements CommandLineRunner{
 		p4.getCategories().add(cat3);
 		p5.getCategories().add(cat2);	
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		// Domain Model [ 1..* Produtos para * Pedidos ]
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 }
